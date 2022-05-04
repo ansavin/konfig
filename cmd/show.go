@@ -22,38 +22,26 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
+
+	"konfig/internal"
 )
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "konfig",
-	Short: "CLI tool for managing kubectl config files",
-	Long: `konfig - kubectl config file manager, cli tool for choosing, 
-editing, backuping, viewing and merging of kubectl config files 
-that are usually stored in '~/.kube/' folder
+// showCmd represents command to merge kubeconfigs
+var showCmd = &cobra.Command{
+	Use:   "show",
+	Short: "shows current kubeconfig",
+	Long: `Prints current kubeconfig to console
 		  `,
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
+	Run: func(cmd *cobra.Command, args []string) {
+		currentConfig, err := internal.ReadConf(internal.DefaultKubeconfig)
+		if err != nil {
+			panic(err)
+		}
+		internal.PrettyPrint(currentConfig)
+	},
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.konfig.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.AddCommand(showCmd)
 }
