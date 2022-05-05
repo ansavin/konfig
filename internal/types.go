@@ -1,13 +1,5 @@
 package internal
 
-import (
-	"fmt"
-	"os"
-	"reflect"
-
-	"gopkg.in/yaml.v2"
-)
-
 // DefaultKubeconfig is path where kubectl config is stored by default
 const DefaultKubeconfig = "/home/andrey/.kube/config"
 
@@ -74,62 +66,4 @@ type Kubeconfig struct {
 	CurrentContext string         `yaml:"current-context"`
 	Users          []UserEntry    `yaml:"users"`
 	Preferences    Preferences    `yaml:"preferences"`
-}
-
-// PrettyPrint is debug func
-func PrettyPrint(structure interface{}) {
-	v := reflect.ValueOf(structure)
-	typeOfS := v.Type()
-	for i := 0; i < v.NumField(); i++ {
-		fmt.Printf("Field: %s\tValue: %v\n", typeOfS.Field(i).Tag, v.Field(i).Interface())
-	}
-}
-
-// ReadConf is a helper func for reading kubeconfig files
-func ReadConf(path string) (Kubeconfig, error) {
-	raw, err := os.ReadFile(path)
-	if err != nil {
-		return Kubeconfig{}, fmt.Errorf("cannot open kubeconfig: %s", err)
-	}
-
-	config := Kubeconfig{}
-
-	err = yaml.Unmarshal(raw, &config)
-	if err != nil {
-		return Kubeconfig{}, fmt.Errorf("cannot read kubeconfig: %s", err)
-	}
-
-	return config, nil
-}
-
-// Merge merges two kubeconfigs. If error happens, it always returns main config,
-// which is assumed to be always correct, in order to continue working, because
-// fails during merge kubeconfigs are assumed as normal usage of program
-func Merge(MainConf, ExtraConf Kubeconfig) (Kubeconfig, error) {
-	if MainConf.APIVersion != MainConf.APIVersion {
-		return MainConf, fmt.Errorf("cannot merge configs with different versions")
-	}
-
-	if MainConf.Kind != ExtraConf.Kind {
-		return MainConf, fmt.Errorf("cannot merge king: %s and kind: %s", MainConf.Kind, ExtraConf.Kind)
-	}
-
-	clusters := MainConf.Clusters
-	clusters = append(clusters, ExtraConf.Clusters...)
-
-	contexts := MainConf.Contexts
-	contexts = append(contexts, ExtraConf.Contexts...)
-
-	users := MainConf.Users
-	users = append(users, ExtraConf.Users...)
-
-	return Kubeconfig{
-		APIVersion:     MainConf.APIVersion,
-		Kind:           MainConf.Kind,
-		Clusters:       clusters,
-		Contexts:       contexts,
-		CurrentContext: MainConf.CurrentContext,
-		Users:          users,
-		Preferences:    MainConf.Preferences,
-	}, nil
 }
