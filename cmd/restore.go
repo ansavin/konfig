@@ -22,43 +22,19 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v2"
 
 	"konfig/internal"
 )
 
-// mergeCmd represents command to merge kubeconfigs
-var mergeCmd = &cobra.Command{
-	Use:   "merge </path/to/config/file>",
-	Short: "merge current config with one stored at </path/to/config/file>",
-	Long: `Merges config from provided path with currently selected one.
-	After execution currently selected config is modified and needs manual save.
+// showCmd represents command to merge kubeconfigs
+var restoreCmd = &cobra.Command{
+	Use:   "restore",
+	Short: "restores current kubeconfig",
+	Long: `copies backup file content from $HOME/.konfig/... to $HOME/.kube/config
 		  `,
-	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		currentConfig, err := internal.ReadConf(internal.DefaultKubeconfig)
-		if err != nil {
-			panic(err)
-		}
-		extraConf, err := internal.ReadConf(args[0])
-		if err != nil {
-			panic(err)
-		}
-		currentConfig, err = internal.Merge(currentConfig, extraConf)
-		if err != nil {
-			// no need to exit here - just print error and no nothing
-			fmt.Println(err)
-			return
-		}
-		raw, err := yaml.Marshal(currentConfig)
-		if err != nil {
-			panic(err)
-		}
-		err = os.WriteFile(internal.DefaultKubeconfig, raw, os.FileMode(0600))
+		err := internal.CopyFileContent(internal.DefaultBackupFolder+"/"+internal.DefaultBackupFile, internal.DefaultKubeconfig)
 		if err != nil {
 			panic(err)
 		}
@@ -66,5 +42,5 @@ var mergeCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(mergeCmd)
+	rootCmd.AddCommand(restoreCmd)
 }

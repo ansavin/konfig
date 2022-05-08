@@ -3,6 +3,12 @@ package internal
 // DefaultKubeconfig is path where kubectl config is stored by default
 const DefaultKubeconfig = "/home/andrey/.kube/config"
 
+// DefaultBackupFolder is path where backups are stored
+const DefaultBackupFolder = "/home/andrey/.konfig"
+
+// DefaultBackupFile is default backup file name
+const DefaultBackupFile = "config"
+
 // Context represents k8s context section of kubectl config file
 type Context struct {
 	Cluster string `yaml:"cluster"`
