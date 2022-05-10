@@ -1,3 +1,6 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/ansavin/konfig)](https://goreportcard.com/report/github.com/ansavin/konfig)
+[![Golang-CI](https://github.com/ansavin/konfig/actions/workflows/golang-ci.yml/badge.svg)](https://github.com/ansavin/konfig/actions/workflows/golang-ci.yml)
+
 # konfig
 
 konfig - kubectl config file manager, cli tool for backuping, viewing and merging
