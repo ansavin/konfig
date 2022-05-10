@@ -16,7 +16,7 @@ To install this app, simply type
 
 ## usage
 
-`konfig show` - show current kubeconfig
-`konfig merge /path/to/another/config` - merge current kubeconfig and another one situated at /path/to/another/config
-`konfig backup` - to create a backup of current kubeconfig
-`konfig restore` - to restore kubeconfig from backup
+- `konfig show` - show current kubeconfig
+- `konfig merge /path/to/another/config` - merge current kubeconfig and another one situated at /path/to/another/config
+- `konfig backup` - to create a backup of current kubeconfig
+- `konfig restore` - to restore kubeconfig from backup
