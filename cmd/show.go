@@ -34,7 +34,12 @@ var showCmd = &cobra.Command{
 	Long: `Prints current kubeconfig to console
 		  `,
 	Run: func(cmd *cobra.Command, args []string) {
-		currentConfig, err := internal.ReadConf(internal.DefaultKubeconfig)
+		path, err := internal.GetKubeconfigPath(cmd)
+		if err != nil {
+			panic(err)
+		}
+
+		currentConfig, err := internal.ReadConf(path)
 		if err != nil {
 			panic(err)
 		}

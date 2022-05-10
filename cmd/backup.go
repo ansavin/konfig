@@ -22,9 +22,6 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"errors"
-	"os"
-
 	"github.com/spf13/cobra"
 
 	"konfig/internal"
@@ -37,12 +34,17 @@ var backupCmd = &cobra.Command{
 	Long: `copys current kubeconfig to $HOME/.konfig/...
 		  `,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := os.Mkdir(internal.DefaultBackupFolder, os.FileMode(0755))
-		if err != nil && !errors.Is(err, os.ErrExist) {
+		kubeconfig, err := internal.GetKubeconfigPath(cmd)
+		if err != nil {
 			panic(err)
 		}
 
-		err = internal.CopyFileContent(internal.DefaultKubeconfig, internal.DefaultBackupFolder+"/"+internal.DefaultBackupFile)
+		backup, err := internal.GetBackupFilePath(cmd)
+		if err != nil {
+			panic(err)
+		}
+
+		err = internal.CopyFileContent(kubeconfig, backup)
 		if err != nil {
 			panic(err)
 		}

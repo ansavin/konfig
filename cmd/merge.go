@@ -40,7 +40,12 @@ var mergeCmd = &cobra.Command{
 		  `,
 	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		currentConfig, err := internal.ReadConf(internal.DefaultKubeconfig)
+		path, err := internal.GetKubeconfigPath(cmd)
+		if err != nil {
+			panic(err)
+		}
+
+		currentConfig, err := internal.ReadConf(path)
 		if err != nil {
 			panic(err)
 		}
@@ -58,7 +63,7 @@ var mergeCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		err = os.WriteFile(internal.DefaultKubeconfig, raw, os.FileMode(0600))
+		err = os.WriteFile(path, raw, os.FileMode(0600))
 		if err != nil {
 			panic(err)
 		}

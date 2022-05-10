@@ -1,11 +1,14 @@
 package internal
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"os"
+	p "path"
 
 	"github.com/fatih/color"
+	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
 
@@ -164,4 +167,37 @@ func CopyFileContent(src, dst string) (err error) {
 	}
 	err = out.Sync()
 	return
+}
+
+// GetKubeconfigPath returns valid path to kubeconfig according to cmd flags & defaults
+func GetKubeconfigPath(cmd *cobra.Command) (string, error) {
+	path, err := cmd.Flags().GetString(OptionKubeconfig)
+	if err != nil {
+		return "", err
+	}
+
+	if path == "" {
+		return p.Join(os.Getenv("HOME"), DefaultKubeconfigFolder, DefaultKubeconfigFile), nil
+	}
+
+	return path, nil
+}
+
+// GetBackupFilePath returns valid path to backup according to cmd flags & defaults
+func GetBackupFilePath(cmd *cobra.Command) (string, error) {
+	path, err := cmd.Flags().GetString(OptionBackup)
+	if err != nil {
+		return "", err
+	}
+
+	if path == "" {
+		err := os.Mkdir(p.Join(os.Getenv("HOME"), DefaultBackupFolder), os.FileMode(0755))
+		if err != nil && !errors.Is(err, os.ErrExist) {
+			panic(err)
+		}
+
+		return p.Join(os.Getenv("HOME"), DefaultKubeconfigFolder, DefaultKubeconfigFile), nil
+	}
+
+	return path, nil
 }

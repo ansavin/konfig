@@ -34,7 +34,17 @@ var restoreCmd = &cobra.Command{
 	Long: `copies backup file content from $HOME/.konfig/... to $HOME/.kube/config
 		  `,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := internal.CopyFileContent(internal.DefaultBackupFolder+"/"+internal.DefaultBackupFile, internal.DefaultKubeconfig)
+		kubeconfig, err := internal.GetKubeconfigPath(cmd)
+		if err != nil {
+			panic(err)
+		}
+
+		backup, err := internal.GetBackupFilePath(cmd)
+		if err != nil {
+			panic(err)
+		}
+
+		err = internal.CopyFileContent(backup, kubeconfig)
 		if err != nil {
 			panic(err)
 		}

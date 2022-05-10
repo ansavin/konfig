@@ -22,6 +22,7 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"konfig/internal"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -56,4 +57,8 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().String(
+		internal.OptionKubeconfig, "", "specify a custom kubeconfig file instead of default in ~/.kube/config",
+	)
+	rootCmd.PersistentFlags().String(internal.OptionBackup, "", "specify a custom backup file")
 }

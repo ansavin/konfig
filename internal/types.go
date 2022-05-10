@@ -1,13 +1,19 @@
 package internal
 
-// DefaultKubeconfig is path where kubectl config is stored by default
-const DefaultKubeconfig = "/home/andrey/.kube/config"
+// OptionKubeconfig is cli flag name for setting custom kubeconfig file
+const OptionKubeconfig = "kubeconfig"
+
+// OptionBackup is cli flag name for setting custom backup file
+const OptionBackup = "backup"
+
+// DefaultKubeconfigFolder is path where kubectl config is stored by default
+const DefaultKubeconfigFolder = ".kube"
 
 // DefaultBackupFolder is path where backups are stored
-const DefaultBackupFolder = "/home/andrey/.konfig"
+const DefaultBackupFolder = ".konfig"
 
-// DefaultBackupFile is default backup file name
-const DefaultBackupFile = "config"
+// DefaultKubeconfigFile is default backup file name
+const DefaultKubeconfigFile = "config"
 
 // Context represents k8s context section of kubectl config file
 type Context struct {
