@@ -45,6 +45,11 @@ var mergeCmd = &cobra.Command{
 			panic(err)
 		}
 
+		output, err := internal.GetOutputFilePath(cmd)
+		if err != nil {
+			panic(err)
+		}
+
 		currentConfig, err := internal.ReadConf(path)
 		if err != nil {
 			panic(err)
@@ -63,7 +68,7 @@ var mergeCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		err = os.WriteFile(path, raw, os.FileMode(0600))
+		err = os.WriteFile(output, raw, os.FileMode(0600))
 		if err != nil {
 			panic(err)
 		}
@@ -71,5 +76,6 @@ var mergeCmd = &cobra.Command{
 }
 
 func init() {
+	mergeCmd.Flags().String(internal.OptionOutput, "", "specify a custom backup file instead of default in ~/.kube/config")
 	rootCmd.AddCommand(mergeCmd)
 }

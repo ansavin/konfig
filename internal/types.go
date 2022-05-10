@@ -1,5 +1,8 @@
 package internal
 
+// OptionOutput is cli flag name for setting custom output file
+const OptionOutput = "output"
+
 // OptionKubeconfig is cli flag name for setting custom kubeconfig file
 const OptionKubeconfig = "kubeconfig"
 

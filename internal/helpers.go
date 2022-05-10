@@ -201,3 +201,17 @@ func GetBackupFilePath(cmd *cobra.Command) (string, error) {
 
 	return path, nil
 }
+
+// GetOutputFilePath returns valid path to output file according to cmd flags & defaults
+func GetOutputFilePath(cmd *cobra.Command) (string, error) {
+	path, err := cmd.Flags().GetString(OptionOutput)
+	if err != nil {
+		return "", err
+	}
+
+	if path == "" {
+		return p.Join(os.Getenv("HOME"), DefaultKubeconfigFolder, DefaultKubeconfigFile), nil
+	}
+
+	return path, nil
+}

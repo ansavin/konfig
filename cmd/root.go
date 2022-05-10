@@ -60,5 +60,4 @@ func init() {
 	rootCmd.PersistentFlags().String(
 		internal.OptionKubeconfig, "", "specify a custom kubeconfig file instead of default in ~/.kube/config",
 	)
-	rootCmd.PersistentFlags().String(internal.OptionBackup, "", "specify a custom backup file")
 }

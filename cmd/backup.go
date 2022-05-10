@@ -52,5 +52,6 @@ var backupCmd = &cobra.Command{
 }
 
 func init() {
+	backupCmd.Flags().String(internal.OptionBackup, "", "specify a custom backup file")
 	rootCmd.AddCommand(backupCmd)
 }
