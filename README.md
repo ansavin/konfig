@@ -12,7 +12,7 @@ If you need a more advanced tool, you might take a look at [kubecm](https://gith
 ## install
 
 To install this app, simply type
-`go install github.com/ansavin/konfig`
+`go install github.com/ansavin/konfig@latest`
 
 ## usage
 

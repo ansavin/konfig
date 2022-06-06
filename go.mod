@@ -1,4 +1,4 @@
-module konfig
+module github.com/ansavin/konfig
 
 go 1.17
 
