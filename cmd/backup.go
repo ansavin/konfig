@@ -24,7 +24,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"konfig/internal"
+	"github.com/ansavin/konfig/internal"
 )
 
 // showCmd represents command to merge kubeconfigs

@@ -21,7 +21,7 @@ THE SOFTWARE.
 */
 package main
 
-import "konfig/cmd"
+import "github.com/ansavin/konfig/cmd"
 
 func main() {
 	cmd.Execute()

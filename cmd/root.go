@@ -22,8 +22,9 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"konfig/internal"
 	"os"
+
+	"github.com/ansavin/konfig/internal"
 
 	"github.com/spf13/cobra"
 )
