@@ -26,8 +26,9 @@ type Context struct {
 
 // User represents k8s user section of kubectl config file
 type User struct {
-	ClientCertificateData string `yaml:"client-certificate-data"`
-	ClientKeyData         string `yaml:"client-key-data"`
+	ClientCertificateData string `yaml:"client-certificate-data,omitempty"`
+	ClientKeyData         string `yaml:"client-key-data,omitempty"`
+	Token                 string `yaml:"token,omitempty"`
 }
 
 // Extension represents k8s extension section of kubectl config file
@@ -80,5 +81,5 @@ type Kubeconfig struct {
 	Contexts       []ContextEntry `yaml:"contexts"`
 	CurrentContext string         `yaml:"current-context"`
 	Users          []UserEntry    `yaml:"users"`
-	Preferences    Preferences    `yaml:"preferences"`
+	Preferences    Preferences    `yaml:"preferences,omitempty"`
 }
